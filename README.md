@@ -14,3 +14,13 @@
 /videos/:id/edit -> Edit Video
 /videos/:id/delete -> Delete Video
 /videos/upload -> Upload Video
+
+mongoDB 시작
+```
+brew services start mongodb-community@5.0
+```
+
+mongoDB 종료
+```
+brew services stop mongodb-community@5.0
+```
