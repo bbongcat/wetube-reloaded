@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
@@ -96,7 +98,6 @@ const handleMouseLeave = () => {
 };
 
 const handleKeyPlay = (e) => {
-    console.log(e);
     if (e.code === "Space") {
         e.preventDefault();
         if (video.paused) {
@@ -132,8 +133,6 @@ const handleKeyPlay = (e) => {
     if (e.code === "ArrowUp") {
         e.preventDefault();
         const beforeValue = Math.round(video.volume * 10);
-        console.log(video.volume);
-        console.log(beforeValue);
 
         if (beforeValue === 10) {
             volumeRange.value = 1;
@@ -146,8 +145,6 @@ const handleKeyPlay = (e) => {
     if (e.code === "ArrowDown") {
         e.preventDefault();
         const beforeValue = Math.round(video.volume * 10);
-        console.log(video.volume);
-        console.log(beforeValue);
 
         if (beforeValue === 1) {
             video.volume = 0;
@@ -174,11 +171,19 @@ const handleClickPlay = () => {
     playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
+const handleEnded = () => {
+    const {id} = videoContainer.dataset;
+    fetch(`/api/videos/${id}/view`, {
+        method: "POST"
+    });
+};
+
 playBtn.addEventListener("click", handlePlayBtn);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("ended", handleEnded);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 timeline.addEventListener("input", handleTimelineChange);
